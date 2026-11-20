@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mostafa Keshk for toefl IBT Exam</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #eef1f6;
+      color: #17203a;
+    }
+    .brand-gradient {
+      background: linear-gradient(135deg, #1d2a5b 0%, #2b3f85 60%, #374fa3 100%);
+    }
+    .exam-card {
+      transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+    }
+    .exam-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px -6px rgba(29, 42, 91, 0.14);
+      border-color: #93a8e8;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation & Brand Header -->
+  <header class="brand-gradient text-white shadow-md sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-xl bg-white/15 backdrop-blur flex items-center justify-center border border-white/20 shrink-0">
+            <i data-lucide="graduation-cap" class="w-6 h-6 text-amber-300"></i>
+          </div>
+          <div>
+            <h1 class="text-lg sm:text-xl font-extrabold tracking-tight leading-tight">
+              Mostafa Keshk for toefl IBT Exam
+            </h1>
+            <p class="text-xs sm:text-sm text-indigo-100/90">
+              102 Interactive Practice Tests &bull; Instant In-Browser Exam Launcher
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 sm:gap-3">
+          <label class="cursor-pointer inline-flex items-center gap-2 px-3.5 py-2 rounded-lg bg-white/15 hover:bg-white/25 border border-white/20 text-xs sm:text-sm font-medium transition">
+            <i data-lucide="folder-open" class="w-4 h-4 text-amber-300"></i>
+            <span id="folderBtnLabel">Load Local Exams Folder</span>
+            <input id="folderInput" type="file" webkitdirectory directory multiple accept=".html,.htm" class="hidden" />
+          </label>
+          <button id="resetProgressBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 border border-white/15 text-xs sm:text-sm font-medium transition">
+            <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+            <span>Reset Progress</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- Progress & Stats Bar -->
+    <section class="grid grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4">
+      <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm col-span-2 lg:col-span-2 flex flex-col justify-between">
+        <div class="flex items-center justify-between mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-500">Overall Progress</span>
+          <span id="progressCountText" class="text-sm font-bold text-[#1d2a5b]">0 / 102 Completed (0%)</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="progressBarFill" class="h-full bg-emerald-500 rounded-full transition-all duration-300" style="width: 0%"></div>
+        </div>
+        <p id="localFolderStatus" class="text-xs text-slate-500 mt-2">
+          Ready: Hosted mode opens <code class="bg-slate-100 px-1 rounded">exams/</code> directly, or load a local folder above.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm">
+        <div class="text-xs font-medium text-slate-500">Guide Series</div>
+        <div class="text-2xl font-extrabold text-[#1d2a5b] mt-1">50</div>
+        <div class="text-xs text-slate-400 mt-0.5">Tests 1 &ndash; 50</div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm">
+        <div class="text-xs font-medium text-slate-500">SHIMO Series</div>
+        <div class="text-2xl font-extrabold text-indigo-700 mt-1">45</div>
+        <div class="text-xs text-slate-400 mt-0.5">Tests 1 &ndash; 45</div>
+      </div>
+
+      <div class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm">
+        <div class="text-xs font-medium text-slate-500">Full-Length &amp; Teacher</div>
+        <div class="text-2xl font-extrabold text-amber-600 mt-1">7</div>
+        <div class="text-xs text-slate-400 mt-0.5">2 Full + 5 Teacher</div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <section class="bg-white rounded-xl p-4 border border-slate-200/80 shadow-sm space-y-4">
+      <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        <div class="relative flex-1">
+          <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none"></i>
+          <input
+            id="searchInput"
+            type="text"
+            placeholder="Search by test name or number (e.g., Guide 12, SHIMO 5, Full-Length)..."
+            class="w-full pl-10 pr-9 py-2.5 rounded-lg border border-slate-200 bg-slate-50/70 text-sm focus:outline-none focus:ring-2 focus:ring-[#1d2a5b]/25 focus:border-[#1d2a5b] transition"
+          />
+          <button id="clearSearchBtn" type="button" class="hidden absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1" aria-label="Clear search">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs text-slate-500 shrink-0">
+          <span id="visibleCountLabel" class="font-semibold text-slate-700">Showing 102 exams</span>
+        </div>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div id="filterTabs" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- Exam Grid -->
+    <section id="examGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <!-- Populated by JS -->
+    </section>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden bg-white rounded-xl p-12 text-center border border-slate-200/80 shadow-sm">
+      <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-3">
+        <i data-lucide="file-search" class="w-6 h-6"></i>
+      </div>
+      <h3 class="text-base font-bold text-slate-800">No matching exams found</h3>
+      <p class="text-sm text-slate-500 mt-1">Try clearing your search or switching to the All Exams tab.</p>
+      <button id="emptyResetBtn" type="button" class="mt-4 px-4 py-2 rounded-lg bg-[#1d2a5b] text-white text-sm font-medium hover:bg-[#2b3f85] transition">
+        Show All 102 Exams
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Full-Screen Exam Viewer Modal -->
+  <div id="examModal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex flex-col">
+    <div class="bg-[#1d2a5b] text-white px-4 py-2.5 flex items-center justify-between gap-3 shadow-md shrink-0">
+      <div class="flex items-center gap-3 min-w-0">
+        <button id="closeModalBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/15 hover:bg-white/25 text-xs sm:text-sm font-semibold transition shrink-0">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>Back to Exams</span>
+        </button>
+        <div class="min-w-0">
+          <h2 id="modalExamTitle" class="text-sm sm:text-base font-bold truncate">TOEFL Exam</h2>
+          <p id="modalExamSub" class="text-[11px] text-indigo-200 truncate">Mostafa Keshk for toefl IBT Exam</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="modalMarkDoneBtn" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-400/30 text-xs sm:text-sm font-medium text-emerald-100 transition">
+          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+          <span id="modalMarkDoneText">Mark Completed</span>
+        </button>
+        <a id="modalNewTabLink" href="about:blank" target="_blank" rel="noopener noreferrer" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-xs sm:text-sm font-medium transition">
+          <i data-lucide="external-link" class="w-4 h-4"></i>
+          <span>New Tab</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Missing File Notice (shown if exam file is not found) -->
+    <div id="modalFallback" class="hidden flex-1 bg-slate-50 flex items-center justify-center p-6">
+      <div class="max-w-md w-full bg-white rounded-2xl p-6 shadow-lg border border-slate-200 text-center space-y-4">
+        <div class="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto">
+          <i data-lucide="file-warning" class="w-6 h-6"></i>
+        </div>
+        <h3 class="text-lg font-bold text-slate-900">Exam File Not Linked Yet</h3>
+        <p id="modalFallbackDesc" class="text-sm text-slate-600 leading-relaxed">
+          To open this exam directly here, either host the <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">exams/</code> folder alongside this page, or select your local exam HTML file(s) below.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-2.5 justify-center pt-1">
+          <label class="cursor-pointer inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#1d2a5b] hover:bg-[#2b3f85] text-white text-sm font-semibold transition">
+            <i data-lucide="upload" class="w-4 h-4"></i>
+            <span>Open Exam HTML File</span>
+            <input id="singleFileInput" type="file" accept=".html,.htm" class="hidden" />
+          </label>
+          <button id="fallbackCloseBtn" type="button" class="px-4 py-2.5 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 text-sm font-medium transition">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <iframe id="examFrame" title="TOEFL Exam Viewer" class="flex-1 w-full bg-white border-0"></iframe>
+  </div>
+
+  <!-- Confirm Reset Modal -->
+  <div id="resetModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-xl border border-slate-200 space-y-4">
+      <h3 class="text-base font-bold text-slate-900">Reset Study Progress?</h3>
+      <p class="text-sm text-slate-600">This will clear your completed and bookmarked exam markers on this browser.</p>
+      <div class="flex justify-end gap-2">
+        <button id="cancelResetBtn" type="button" class="px-4 py-2 rounded-lg border border-slate-200 text-sm font-medium text-slate-700 hover:bg-slate-50">Cancel</button>
+        <button id="confirmResetBtn" type="button" class="px-4 py-2 rounded-lg bg-rose-600 text-white text-sm font-semibold hover:bg-rose-700">Reset All</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="hidden fixed bottom-5 right-5 z-50 bg-slate-900 text-white text-sm font-medium px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2">
+    <span id="toastMsg">Updated</span>
+  </div>
+
+  <footer class="bg-white border-t border-slate-200 py-4 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <span>Mostafa Keshk for toefl IBT Exam &mdash; 102 Practice Exams</span>
+      <span>Built for instant browser-based TOEFL iBT practice</span>
+    </div>
+  </footer>
+
+  <script>
+    // Build full 102-exam catalog
+    const EXAMS = [];
+    for (let i = 1; i <= 2; i++) {
+      EXAMS.push({
+        id: `full-${i}`,
+        series: 'Full-Length',
+        number: i,
+        title: `TOEFL Full-Length Test ${i}`,
+        filename: `TOEFL Full-Length Test ${i} - Exam.html`,
+        badgeClass: 'bg-amber-100 text-amber-800 border-amber-200'
+      });
+    }
+    for (let i = 1; i <= 50; i++) {
+      EXAMS.push({
+        id: `guide-${i}`,
+        series: 'Guide',
+        number: i,
+        title: `TOEFL Guide Test ${i}`,
+        filename: `TOEFL Guide Test ${i} - Exam.html`,
+        badgeClass: 'bg-blue-100 text-blue-800 border-blue-200'
+      });
+    }
+    for (let i = 1; i <= 45; i++) {
+      EXAMS.push({
+        id: `shimo-${i}`,
+        series: 'SHIMO',
+        number: i,
+        title: `TOEFL SHIMO Test ${i}`,
+        filename: `TOEFL SHIMO Test ${i} - Exam.html`,
+        badgeClass: 'bg-indigo-100 text-indigo-800 border-indigo-200'
+      });
+    }
+    for (let i = 1; i <= 5; i++) {
+      EXAMS.push({
+        id: `teacher-${i}`,
+        series: 'Teacher',
+        number: i,
+        title: `TOEFL Teacher Test ${i}`,
+        filename: `TOEFL Teacher Test ${i} - Exam.html`,
+        badgeClass: 'bg-emerald-100 text-emerald-800 border-emerald-200'
+      });
+    }
+
+    const STORAGE_KEY = 'mk_toefl_ibt_progress_v1';
+    const localBlobMap = new Map(); // filename -> blob URL
+
+    const state = {
+      activeTab: 'All',
+      search: '',
+      completed: new Set(),
+      bookmarked: new Set(),
+      currentExamId: null
+    };
+
+    function loadProgress() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.completed)) state.completed = new Set(parsed.completed);
+          if (Array.isArray(parsed.bookmarked)) state.bookmarked = new Set(parsed.bookmarked);
+        }
+      } catch (e) {
+        // Ignore storage restrictions
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          completed: Array.from(state.completed),
+          bookmarked: Array.from(state.bookmarked)
+        }));
+      } catch (e) {
+        // Ignore storage restrictions
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.add('hidden'), 2400);
+    }
+
+    function getFilteredExams() {
+      const q = state.search.trim().toLowerCase();
+      return EXAMS.filter(ex => {
+        if (state.activeTab === 'Completed' && !state.completed.has(ex.id)) return false;
+        if (state.activeTab === 'Bookmarked' && !state.bookmarked.has(ex.id)) return false;
+        if (!['All', 'Completed', 'Bookmarked'].includes(state.activeTab) && ex.series !== state.activeTab) return false;
+        if (q) {
+          return ex.title.toLowerCase().includes(q) || ex.series.toLowerCase().includes(q) || String(ex.number) === q;
+        }
+        return true;
+      });
+    }
+
+    function renderTabs() {
+      const tabs = [
+        { id: 'All', label: 'All Exams', count: EXAMS.length },
+        { id: 'Full-Length', label: 'Full-Length', count: 2 },
+        { id: 'Guide', label: 'Guide', count: 50 },
+        { id: 'SHIMO', label: 'SHIMO', count: 45 },
+        { id: 'Teacher', label: 'Teacher', count: 5 },
+        { id: 'Bookmarked', label: 'Bookmarked', count: state.bookmarked.size },
+        { id: 'Completed', label: 'Completed', count: state.completed.size }
+      ];
+      const container = document.getElementById('filterTabs');
+      container.innerHTML = tabs.map(t => {
+        const active = state.activeTab === t.id;
+        return `
+          <button
+            type="button"
+            data-tab="${t.id}"
+            class="tab-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold whitespace-nowrap transition ${
+              active
+                ? 'bg-[#1d2a5b] text-white shadow-sm'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'
+            }"
+          >
+            <span>${t.label}</span>
+            <span class="px-1.5 py-0.5 rounded-md text-[11px] ${active ? 'bg-white/20 text-white' : 'bg-white text-slate-600'}">${t.count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderProgress() {
+      const done = state.completed.size;
+      const pct = Math.round((done / EXAMS.length) * 100);
+      document.getElementById('progressCountText').textContent = `${done} / ${EXAMS.length} Completed (${pct}%)`;
+      document.getElementById('progressBarFill').style.width = `${pct}%`;
+    }
+
+    function renderGrid() {
+      const list = getFilteredExams();
+      const grid = document.getElementById('examGrid');
+      const empty = document.getElementById('emptyState');
+      document.getElementById('visibleCountLabel').textContent = `Showing ${list.length} of ${EXAMS.length} exams`;
+
+      if (list.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      grid.innerHTML = list.map(ex => {
+        const isDone = state.completed.has(ex.id);
+        const isBookmarked = state.bookmarked.has(ex.id);
+        const isLoadedLocally = localBlobMap.has(ex.filename);
+
+        return `
+          <article class="exam-card bg-white rounded-xl border ${isDone ? 'border-emerald-300/80' : 'border-slate-200/90'} p-4 flex flex-col justify-between gap-4 shadow-sm">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-[11px] font-bold border ${ex.badgeClass}">
+                  ${ex.series}
+                </span>
+                <div class="flex items-center gap-1">
+                  ${isLoadedLocally ? '<span title="Loaded from local folder" class="w-2 h-2 rounded-full bg-emerald-500"></span>' : ''}
+                  <button
+                    type="button"
+                    data-action="bookmark"
+                    data-id="${ex.id}"
+                    class="p-1.5 rounded-lg hover:bg-slate-100 transition ${isBookmarked ? 'text-amber-500' : 'text-slate-300 hover:text-slate-500'}"
+                    title="Bookmark exam"
+                  >
+                    <i data-lucide="bookmark" class="w-4 h-4 ${isBookmarked ? 'fill-current' : ''}"></i>
+                  </button>
+                  <button
+                    type="button"
+                    data-action="complete"
+                    data-id="${ex.id}"
+                    class="p-1.5 rounded-lg hover:bg-slate-100 transition ${isDone ? 'text-emerald-600' : 'text-slate-300 hover:text-slate-500'}"
+                    title="Toggle completed"
+                  >
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="text-base font-bold text-slate-900 leading-snug">${ex.title}</h3>
+                <p class="text-xs text-slate-500 mt-0.5">Test #${ex.number} &bull; Reading, Listening, Speaking, Writing</p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              data-action="open"
+              data-id="${ex.id}"
+              class="w-full inline-flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-lg bg-[#1d2a5b] hover:bg-[#2b3f85] text-white text-sm font-semibold transition"
+            >
+              <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+              <span>Start Exam</span>
+            </button>
+          </article>
+        `;
+      }).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderAll() {
+      renderProgress();
+      renderTabs();
+      renderGrid();
+      if (window.lucide) lucide.createIcons();
+    }
+
+    async function openExam(examId) {
+      const exam = EXAMS.find(e => e.id === examId);
+      if (!exam) return;
+      state.currentExamId = examId;
+
+      const modal = document.getElementById('examModal');
+      const frame = document.getElementById('examFrame');
+      const fallback = document.getElementById('modalFallback');
+      const newTabLink = document.getElementById('modalNewTabLink');
+
+      document.getElementById('modalExamTitle').textContent = exam.title;
+      document.getElementById('modalExamSub').textContent = `${exam.series} Series • Mostafa Keshk for toefl IBT Exam`;
+      updateModalDoneBtn();
+
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      // 1. Check if loaded from local folder picker
+      if (localBlobMap.has(exam.filename)) {
+        const blobUrl = localBlobMap.get(exam.filename);
+        fallback.classList.add('hidden');
+        frame.classList.remove('hidden');
+        frame.src = blobUrl;
+        newTabLink.href = blobUrl;
+        return;
+      }
+
+      // 2. Relative path: exams/<filename>
+      const hostedPath = `exams/${encodeURIComponent(exam.filename)}`;
+      if (window.location.protocol === 'file:') {
+        // When opened locally from extracted folder, load exams/<filename> directly in iframe
+        fallback.classList.add('hidden');
+        frame.classList.remove('hidden');
+        frame.src = hostedPath;
+        newTabLink.href = hostedPath;
+        return;
+      }
+
+      if (window.location.protocol === 'http:' || window.location.protocol === 'https:') {
+        try {
+          const res = await fetch(hostedPath, { method: 'HEAD' });
+          if (res.ok) {
+            fallback.classList.add('hidden');
+            frame.classList.remove('hidden');
+            frame.src = hostedPath;
+            newTabLink.href = hostedPath;
+            return;
+          }
+        } catch (err) {
+          // Fall through to fallback UI
+        }
+      }
+
+      // 3. Fallback when file is not present in preview or local folder hasn't been loaded
+      frame.classList.add('hidden');
+      frame.src = 'about:blank';
+      fallback.classList.remove('hidden');
+      document.getElementById('modalFallbackDesc').innerHTML =
+        `File <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">${exam.filename}</code> was not found in <code class="bg-slate-100 px-1.5 py-0.5 rounded text-xs">exams/</code>. Click <strong>Load Local Exams Folder</strong> in the header or select this exam file below to launch it immediately.`;
+    }
+
+    function closeExamModal() {
+      const modal = document.getElementById('examModal');
+      const frame = document.getElementById('examFrame');
+      modal.classList.add('hidden');
+      frame.src = 'about:blank';
+      document.body.style.overflow = '';
+      state.currentExamId = null;
+    }
+
+    function updateModalDoneBtn() {
+      if (!state.currentExamId) return;
+      const done = state.completed.has(state.currentExamId);
+      document.getElementById('modalMarkDoneText').textContent = done ? 'Completed' : 'Mark Completed';
+    }
+
+    // Event Listeners
+    document.getElementById('filterTabs').addEventListener('click', e => {
+      const btn = e.target.closest('[data-tab]');
+      if (!btn) return;
+      state.activeTab = btn.dataset.tab;
+      renderAll();
+    });
+
+    document.getElementById('examGrid').addEventListener('click', e => {
+      const btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      const { action, id } = btn.dataset;
+      if (action === 'open') {
+        openExam(id);
+      } else if (action === 'complete') {
+        if (state.completed.has(id)) state.completed.delete(id);
+        else state.completed.add(id);
+        saveProgress();
+        renderAll();
+      } else if (action === 'bookmark') {
+        if (state.bookmarked.has(id)) state.bookmarked.delete(id);
+        else state.bookmarked.add(id);
+        saveProgress();
+        renderAll();
+      }
+    });
+
+    const searchInput = document.getElementById('searchInput');
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    searchInput.addEventListener('input', e => {
+      state.search = e.target.value;
+      clearSearchBtn.classList.toggle('hidden', !state.search);
+      renderGrid();
+    });
+
+    clearSearchBtn.addEventListener('click', () => {
+      state.search = '';
+      searchInput.value = '';
+      clearSearchBtn.classList.add('hidden');
+      renderGrid();
+    });
+
+    document.getElementById('emptyResetBtn').addEventListener('click', () => {
+      state.activeTab = 'All';
+      state.search = '';
+      searchInput.value = '';
+      clearSearchBtn.classList.add('hidden');
+      renderAll();
+    });
+
+    document.getElementById('closeModalBtn').addEventListener('click', closeExamModal);
+    document.getElementById('fallbackCloseBtn').addEventListener('click', closeExamModal);
+
+    document.getElementById('modalMarkDoneBtn').addEventListener('click', () => {
+      if (!state.currentExamId) return;
+      if (state.completed.has(state.currentExamId)) {
+        state.completed.delete(state.currentExamId);
+        showToast('Marked as incomplete');
+      } else {
+        state.completed.add(state.currentExamId);
+        showToast('Exam marked as completed!');
+      }
+      saveProgress();
+      updateModalDoneBtn();
+      renderAll();
+    });
+
+    // Local Folder Loader (works offline & with any subset of files)
+    document.getElementById('folderInput').addEventListener('change', e => {
+      const files = Array.from(e.target.files || []);
+      let matched = 0;
+      files.forEach(file => {
+        if (file.name.toLowerCase().endsWith('.html')) {
+          const url = URL.createObjectURL(file);
+          localBlobMap.set(file.name, url);
+          matched++;
+        }
+      });
+      if (matched > 0) {
+        document.getElementById('folderBtnLabel').textContent = `${matched} Exams Loaded`;
+        document.getElementById('localFolderStatus').textContent = `Loaded ${matched} local exam files. Click Start Exam on any loaded card to begin!`;
+        showToast(`Loaded ${matched} exam files from folder`);
+        renderGrid();
+      }
+    });
+
+    // Single File Loader inside Fallback Modal
+    document.getElementById('singleFileInput').addEventListener('change', e => {
+      const file = e.target.files && e.target.files[0];
+      if (!file || !state.currentExamId) return;
+      const exam = EXAMS.find(x => x.id === state.currentExamId);
+      const url = URL.createObjectURL(file);
+      if (exam) localBlobMap.set(exam.filename, url);
+      document.getElementById('modalFallback').classList.add('hidden');
+      const frame = document.getElementById('examFrame');
+      frame.classList.remove('hidden');
+      frame.src = url;
+      document.getElementById('modalNewTabLink').href = url;
+      showToast(`Opened ${file.name}`);
+      renderGrid();
+    });
+
+    // Reset Progress Modal
+    const resetModal = document.getElementById('resetModal');
+    document.getElementById('resetProgressBtn').addEventListener('click', () => resetModal.classList.remove('hidden'));
+    document.getElementById('cancelResetBtn').addEventListener('click', () => resetModal.classList.add('hidden'));
+    document.getElementById('confirmResetBtn').addEventListener('click', () => {
+      state.completed.clear();
+      state.bookmarked.clear();
+      saveProgress();
+      resetModal.classList.add('hidden');
+      showToast('Progress cleared');
+      renderAll();
+    });
+
+    // Initialize
+    loadProgress();
+    renderAll();
+  </script>
+</body>
+</html>
